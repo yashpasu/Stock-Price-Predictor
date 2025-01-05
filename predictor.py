@@ -52,4 +52,6 @@ pricePredictor.fit(X_train, y_train)
 #Using the test data we should now evaluate the data through predictions
 Y_pred = pricePredictor.predict(X_test)
 
+#Find the mean squared error using the Scikit metrics. The mse finds a calcaulted difference between the tests outcome and the prediction
+mse = mean_squared_error(Y_test, Y_pred)
 
