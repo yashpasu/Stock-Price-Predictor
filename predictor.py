@@ -30,24 +30,24 @@ modelledData = pd.DataFrame()
 
 #Iteratively go through each stock index and identify where it closes, and when it closes move onto the next index
 for i in range(noOfDays):
-    modelledData[f"lag_{i+1}"] = data['Close'].shift(i+1)
+    modelledData[f"lag_{i+1}"] = stockData['Close'].shift(i+1)
 
 #Set todays price as the target column for model to work with
-modelledData['target'] = data['Close']
+modelledData['target'] = stockData['Close']
 
 #If there are values that are NaN, drop them
 modelledData = modelledData.dropna()
 
-#Split the data into training and test sets in X andY, where X is 5 day intervals and Y is the target to be reached
-X = modelledData[[f"lag_{i+1}" for i in range(n_days)]]
+#Split the data into training and test sets in X and Y, where X is 5 day intervals and Y is the target to be reached
+X = modelledData[[f"lag_{i+1}" for i in range(noOfDays)]]
 Y = modelledData['target']
 
 #Proceed to categorise the train and test data using the Scikit train_test_split function (testSize = 0.2 means 20% of data will be used to test and randState is a random number to test with)
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, testSize = 0.2, randState = 40)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 40)
 
 #Now train the price predicting model using linear regression
 pricePredictor = LinearRegression()
-pricePredictor.fit(X_train, y_train)
+pricePredictor.fit(X_train, Y_train)
 
 #Using the test data we should now evaluate the data through predictions
 Y_pred = pricePredictor.predict(X_test)
