@@ -60,7 +60,7 @@ Y_pred = pricePredictor.predict(X_test)
 mse = mean_squared_error(Y_test, Y_pred)
 
 #Generate and display the predicated prices with the dates
-testDates = stockData['Date'].iloc[-len(Y_test):] 
+testDates = stockData.index[-len(Y_test):]
 predictedPrices = pd.DataFrame({
     'Date' : testDates,
     'Current Price' : Y_test.values,
@@ -86,8 +86,8 @@ plt.plot(range(len(Y_pred)), Y_pred, label= "Predicted Prices", color = 'orange'
 plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=5))
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 
-#Rotate x axis for better visibiltiy
-plt.xticks(rotation=45) 
+#Rotate x axis for better visibiltiy and correct dates
+plt.xticks(ticks=range(len(testDates)), labels = stockData['Date'].iloc[-len(Y_test):].dt.strftime('%Y-%m-%d'), rotation=45) 
 
 #Add attributes to graph
 plt.legend()
