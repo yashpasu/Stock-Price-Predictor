@@ -60,12 +60,17 @@ Y_pred = pricePredictor.predict(X_test)
 mse = mean_squared_error(Y_test, Y_pred)
 
 #Generate and display the predicated prices with the dates
-testDates = stockData.index[-len(Y_test):]
+testDates = stockData['Date'].iloc[-len(Y_test):].dt.strftime('%Y-%m-%d')
 predictedPrices = pd.DataFrame({
     'Date' : testDates,
     'Current Price' : Y_test.values,
     'Predicted Price': Y_pred
 })
+
+#Round 'prices to 2 decimal places
+predictedPrices['Current Price'] = predictedPrices['Current Price'].round(2)
+predictedPrices['Predicted Price'] = predictedPrices['Predicted Price'].round(2)
+
 print(predictedPrices)
 
 #Now determine and display tomorrow predicted price
