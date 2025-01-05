@@ -10,14 +10,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 #Install Scikit Metric's mean_squared_error function to implements the mean square error classifications to our stock prices dataset
 from sklearn.metrics import mean_squared_error
-#Inport matplot lib pyplot to visually respresent the predicated rpices of a graph
+#Import matplot lib pyplot to visually respresent the predicated rpices of a graph
 import matplotlib.pyplot as plt
+#Import matplotlibs dates to use on x-axis for date intervals
+import matplotlib.dates as mdates
+#Import datetime module
+from datetime import date, timedelta
 
 #Ask the user to enter the code of the stock that they want information on
 stockCode = input("Enter a stock code (e.g. AAPL):")
 
 #Receive the latest stock infomration for last 1 year on user entered stock from yfinance import
-stockData = yf.download(stockCode, start = "2024-01-01", end = "2025-01-01", progress = False)
+stockData = yf.download(stockCode, start = "2024-01-01", end = date.today(), progress = False)
 
 #The prices that sghould be determined as part of the dataset are the closing prices of the stock
 stockData = stockData[['Close']].reset_index()
@@ -54,4 +58,41 @@ Y_pred = pricePredictor.predict(X_test)
 
 #Find the mean squared error using the Scikit metrics. The mse finds a calcaulted difference between the tests outcome and the prediction
 mse = mean_squared_error(Y_test, Y_pred)
+
+#Generate and display the predicated prices with the dates
+testDates = stockData['Date'].iloc[-len(Y_test):] 
+predictedPrices = pd.DataFrame({
+    'Date' : testDates,
+    'Current Price' : Y_test.values,
+    'Predicted Price': Y_pred
+})
+print(predictedPrices)
+
+#Now determine and display tomorrow predicted price
+latestStatus = stockData['Close'].iloc[-noOfDays:].values.reshape(1,-1)
+predTomorrowsPrice = pricePredictor.predict(latestStatus)[0]
+
+print(f"Predicted Price for tomorrow ({pd.Timestamp.now().date() + timedelta(days=1)}): ${predTomorrowsPrice:.2f}")
+
+#Use matplotlib to plot these prices on a graph as visual representation
+plt.figure(figsize=(14,8))
+
+#Draw line for current price
+plt.plot(range(len(Y_test)), Y_test, label= "Current Prices", color = 'blue', linewidth = 2)
+#Draw line for predicted price
+plt.plot(range(len(Y_pred)), Y_pred, label= "Predicted Prices", color = 'orange', linewidth = 2)
+
+#Format the x-axis to accomodate the 5 day intervals
+plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=5))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+
+#Rotate x axis for better visibiltiy
+plt.xticks(rotation=45) 
+
+#Add attributes to graph
+plt.legend()
+plt.title("Stock Market Prediction")
+plt.xlabel("Date")
+plt.ylabel("Stock Price")
+plt.show()
 
