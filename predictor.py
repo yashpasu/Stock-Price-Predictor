@@ -93,6 +93,6 @@ plt.xticks(ticks=range(len(testDates)), labels = stockData['Date'].iloc[-len(Y_t
 plt.legend()
 plt.title("Stock Market Prediction")
 plt.xlabel("Date")
-plt.ylabel("Stock Price")
+plt.ylabel("Stock Price ($)")
 plt.show()
 
