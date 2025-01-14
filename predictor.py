@@ -82,8 +82,8 @@ print(f"Predicted Price for tomorrow ({pd.Timestamp.now().date() + timedelta(day
 #Use matplotlib to plot these prices on a graph as visual representation
 plt.figure(figsize=(14,8))
 
-#Draw line for current price
-plt.plot(range(len(Y_test)), Y_test, label= "Current Prices", color = 'blue', linewidth = 2)
+#Draw line for actual price
+plt.plot(range(len(Y_test)), Y_test, label= "Actual Prices", color = 'blue', linewidth = 2)
 #Draw line for predicted price
 plt.plot(range(len(Y_pred)), Y_pred, label= "Predicted Prices", color = 'orange', linewidth = 2)
 
@@ -92,7 +92,7 @@ plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=5))
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 
 #Rotate x axis for better visibiltiy and correct dates
-plt.xticks(ticks=range(len(testDates)), labels = stockData['Date'].iloc[-len(Y_test):].dt.strftime('%Y-%m-%d'), rotation=45) 
+plt.xticks(ticks=range(len(testDates)), labels = stockData['Date'].iloc[-len(Y_test):].dt.strftime('%Y-%m-%d'), rotation=45)
 
 #Add attributes to graph
 plt.legend()
