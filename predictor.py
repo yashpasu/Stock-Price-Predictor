@@ -63,12 +63,12 @@ mse = mean_squared_error(Y_test, Y_pred)
 testDates = stockData['Date'].iloc[-len(Y_test):].dt.strftime('%Y-%m-%d')
 predictedPrices = pd.DataFrame({
     'Date' : testDates,
-    'Current Price' : Y_test.values,
+    'Actual Price' : Y_test.values,
     'Predicted Price': Y_pred
 })
 
 #Round 'prices to 2 decimal places
-predictedPrices['Current Price'] = predictedPrices['Current Price'].round(2)
+predictedPrices['Actual Price'] = predictedPrices['Actual Price'].round(2)
 predictedPrices['Predicted Price'] = predictedPrices['Predicted Price'].round(2)
 
 print(predictedPrices)
