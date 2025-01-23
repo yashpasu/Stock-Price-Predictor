@@ -5,3 +5,4 @@ The library used to extract live stock market data is the yfinance import, which
 
 Once the model predicts outputs it is displayed on a line chart that is created using matplotlib, and then it will output the predicted price for tomorrow for an entered stock. This model isnt accurate at the moment as it is only learning based off of the last years worht of data but this can be easily adjusted by changing the start date to an earlier date, which is given to the yfinance library that will be held in stockData.
 ![image](https://github.com/user-attachments/assets/3821ad79-009d-4d1c-9328-a583c21add98)
+(THIS PROGRAM SHOULD NOT HELP MAKE FINANCIAL DECISIONS)
